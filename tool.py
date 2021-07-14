@@ -5,7 +5,6 @@ import requests
 reddit = praw.Reddit("gpmods")
 
 year = int(input("Current in-game year: "))
-
 while True:
     action = int(input("0 to check credentials, 1 to post UN proposals, 2 to post UN voting, 3 to post UN results, 4 to exit: "))
     if action == 0:
@@ -57,7 +56,8 @@ while True:
                                 reply.reply("You are not authorised to propose this resolution. If you believe this is a mistake, please contact the moderators.")
                         except:
                             reply.reply("You are not authorised to propose this resolution. If you believe this is a mistake, please contact the moderators.")
-        text = f"""This is the {year} United Nations voting thread. You can just comment "vote" under the "yes", "no", or "abstain" options. Only [UNSC members]({link}) may vote on the UNSC resolutions, and voting for new UNSC members will be done in a separate comment."""
+        backslashes = "\n\n"
+        text = f"""This is the {year} United Nations voting thread. You can just comment "vote" under the "yes", "no", or "abstain" options. Only [UNSC members]({link}) may vote on the UNSC resolutions, and voting for new UNSC members will be done in a separate comment.\n\n**General Assembly Resolutions**\n\n{backslashes.join(reso_unga)}\n\n**Security Council Resolutions**\n\n{backslashes.join(reso_unsc)}"""
         post = reddit.subreddit("GlobalPowers").submit(f"[UN] United Nations {year} Voting", selftext=text)
         comment1 = post.reply("**General Assembly Resolutions**")
         comment1.mod.distinguish(how="yes", sticky=True)
@@ -75,6 +75,7 @@ while True:
             reso.reply("Abstain")
         print(post.url)
     elif action == 3:
+        print("The voting rules are too complex to be simulated by a program.")
         raise NotImplementedError
     elif action == 4:
         raise SystemExit
